@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('assignment', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('homework_id');
+            $table->unsignedBigInteger('student_id');
             $table->dateTime('assign_at');
             $table->timestamps();
         });

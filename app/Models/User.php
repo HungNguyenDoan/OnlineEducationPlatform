@@ -18,27 +18,20 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
+        'first_name',
+        'last_name',
+        'dob',
+        'phone_number',
+        'email'
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function classOwner()
+    {
+        return $this->hasMany(StudentClass::class, 'owner_id', 'id');
+    }
+    public function joinedClass()
+    {
+        return $this->belongsToMany(StudentClass::class);
+    }
 }
