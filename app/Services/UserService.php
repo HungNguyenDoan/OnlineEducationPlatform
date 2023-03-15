@@ -29,7 +29,7 @@ class UserService
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful',
-                'data' => Auth::user()
+                'token' => $token,
             ], 200);
         } else {
             return response()->json([
@@ -63,5 +63,9 @@ class UserService
         if (Auth::check()) {
             Auth::user()->oAuthAccessToken()->delete();
         }
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+        ]);
     }
 }

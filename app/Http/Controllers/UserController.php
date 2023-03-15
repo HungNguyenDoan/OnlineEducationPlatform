@@ -20,4 +20,8 @@ class UserController extends Controller
     {
         return $this->userService->authenticate($request->all());
     }
+    public function logout()
+    {
+        $this->userService->logout();
+    }
 }

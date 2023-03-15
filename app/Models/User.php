@@ -34,7 +34,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(StudentClass::class);
     }
-    private function oAuthAccessToken()
+    public function oAuthAccessToken()
     {
         return $this->hasMany(OauthAccessToken::class);
     }
