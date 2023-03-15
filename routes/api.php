@@ -25,8 +25,18 @@ Route::post('/register', [UserController::class, 'register'])->name('register');
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::prefix('/class')->group(function () {
+        // Route::get('/all-class', function () {
+        //     return 1;
+        // });
+        Route::get('/all-class', [ClassController::class, 'getAllOwnerClass']);
+        Route::get('/{id}', [ClassController::class, 'getDetailClass']);
         Route::post('/create', [ClassController::class, 'createClass']);
         Route::post('/join', [ClassController::class, 'joinClass']);
-        Route::post('/all-class', [ClassController::class, 'getAllOwnerClass']);
+    });
+    Route::prefix('/lesson')->group(function () {
+        Route::get('/all');
+        Route::post('/create');
+        Route::get('/{id}');
+        Route::put('/{id}');
     });
 });

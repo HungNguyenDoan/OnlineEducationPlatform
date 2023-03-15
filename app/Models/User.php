@@ -32,7 +32,7 @@ class User extends Authenticatable
     }
     public function joinedClass()
     {
-        return $this->belongsToMany(StudentClass::class);
+        return $this->belongsToMany(StudentClass::class, JoinStudent::class, 'student_id', 'class_id');
     }
     public function oAuthAccessToken()
     {

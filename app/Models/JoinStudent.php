@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class JoinStudent extends Model
 {
     use HasFactory;
-    protected $table = 'join_table';
+    protected $table = 'join_student';
     protected $fillable = [
         'class_id',
         'student_id',

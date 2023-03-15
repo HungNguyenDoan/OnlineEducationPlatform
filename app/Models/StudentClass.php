@@ -20,6 +20,6 @@ class StudentClass extends Model
     }
     public function students()
     {
-        return $this->belongsToMany(User::class, JoinStudent::class, 'student_id', 'class_id');
+        return $this->belongsToMany(User::class, JoinStudent::class, 'class_id', 'student_id');
     }
 }

@@ -24,4 +24,8 @@ class ClassController extends Controller
     {
         return $this->classService->joinClass($request->classCode);
     }
+    public function getDetailClass(Request $request)
+    {
+        return $this->classService->getDetailClass($request->id);
+    }
 }

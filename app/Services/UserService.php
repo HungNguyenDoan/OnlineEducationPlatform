@@ -66,6 +66,6 @@ class UserService
         return response()->json([
             'status' => true,
             'message' => 'Success',
-        ]);
+        ], 200);
     }
 }

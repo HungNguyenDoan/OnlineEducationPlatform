@@ -20,8 +20,9 @@ class ClassService
     {
         DB::beginTransaction();
         try {
-            $classCode = uniqid();
+            $classCode = bin2hex(random_bytes(5));
             $attributes['class_code'] = $classCode;
+            $attributes['owner_id'] = Auth::user()->id;
             $this->classRepository->create($attributes);
             DB::commit();
             return response()->json([
@@ -34,7 +35,7 @@ class ClassService
             return response()->json([
                 'status' => false,
                 'message' => 'Failed when creating class'
-            ]);
+            ], 400);
         }
     }
     public function getAllOwnerClass()
@@ -46,21 +47,37 @@ class ClassService
     }
     public function joinClass($classCode)
     {
-        DB::transaction();
+        DB::beginTransaction();
         try {
             $class = $this->classRepository->findByClassCode($classCode);
-            $class->student()->attach(Auth::user()->id);
+            // $owner = $class->students;
+            // Log::debug($owner);
+            $class->students()->attach(Auth::user()->id);
             DB::commit();
             return response()->json([
                 'status' => true,
                 'message' => 'Join class successfully'
-            ]);
+            ], 200);
         } catch (Exception $e) {
             Log::debug(json_decode($e->getMessage()));
             return response()->json([
                 'status' => false,
                 'message' => 'Failed'
-            ]);
+            ], 400);
+        }
+    }
+    public function getDetailClass($classId)
+    {
+        if ($this->classRepository->find($classId) != null) {
+            return response()->json([
+                'status' => true,
+                'data' => $this->classRepository->find($classId)
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'This class is not exist',
+            ], 404);
         }
     }
 }
