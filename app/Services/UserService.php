@@ -34,7 +34,7 @@ class UserService
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Unauthorize'
+                'message' => 'Wrong email or password please try again'
             ], 401);
         }
     }

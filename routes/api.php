@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,8 +35,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/join', [ClassController::class, 'joinClass']);
     });
     Route::prefix('/lesson')->group(function () {
-        Route::get('/all');
-        Route::post('/create');
+        Route::get('/all',[LessonController::class, 'getAllLessonInClass']);
+        Route::post('/create',[LessonController::class,'']);
         Route::get('/{id}');
         Route::put('/{id}');
     });

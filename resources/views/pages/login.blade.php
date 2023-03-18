@@ -1,111 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-    @vite(['resources/js/app.js'])
-    @vite(['resources/css/app.css'])
-    <title>Online Education Platform</title>
-</head>
-
-<body>
-    <main>
-        <div class="main relative bg-gray max-w-screen-lg md:max-w-none h-screen">
-            <div class="background flex flex-col md:flex-row items-end h-full justify-between">
-                <div class="sizeImg mb-10 md:mb-0 md:ml-10 ">
-                    <img src="{{ URL('/assets/images/sizeImg.png') }}" alt="" class="w-full h-full object-cover">
-                </div>
-                <div class="sizeImg2 mb-10 md:ml-5 flex flex-row justify-end">
-                    <img src="{{ URL('/assets/images/sizeImg2.png') }}" alt=""
-                        class="w-full h-full object-cover">
-                </div>
+@extends('layouts.login_layout')
+@section('main-body')
+    <div class="min-h-screen bg-cover bg-center flex items-center justify-center"
+        style="background-image: url({{ URL('/assets/images/bg-img.png') }})">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <img src="{{ URL('/assets/images/loginLogo.png') }}" alt="Logo" class="mx-auto h-32 w-auto" />
             </div>
-            <div class="input absolute top-20 left-0 z-10 w-full h-auto flex justify-center">
-                <img src="{{ URL('/assets/images/input.png') }}" alt="" class="w-full max-w-3xl">
-                <form class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
-                    <label class="text-gray-700 font-medium mb-2" for="email">Email</label>
-                    <label class="text-white font-bold mb-2 text-left md:hidden" for="email">Email</label>
-                    <input
-                        class="bg-transparent border-b-2 border-gray-500 w-full py-2 text-white focus:outline-none focus:border-blue-500"
-                        id="email" type="email" placeholder="Enter your email" required />
-                    <label class="text-white font-bold mb-2 mt-4 text-left md:mt-6" for="password">Password</label>
-                    <input
-                        class="bg-transparent border-b-2 border-gray-500 w-full py-2 text-white focus:outline-none focus:border-blue-500"
-                        id="password" type="password" placeholder="Enter your password" required />
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-full focus:outline-none focus:shadow-outline-blue mt-4 md:mt-6">
-                        Submit
+            <form class="mt-8 space-y-6" action="/" method="POST" class="hidden">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="email-address" class="block text-gray-700 font-bold mb-2">Email or Username</label>
+                        <input id="email-address" name="email" type="text" autocomplete="email"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                            placeholder="Email address">
+                        <span class="text-red-500" style="font-size: 10px; color: red" id="errorEmail"></span>
+                    </div>
+                    <div class="mt-4">
+                        <label for="password" class="block text-gray-700 font-bold mb-2 mt-2">Password</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password"
+                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                            placeholder="Password">
+                        <span class="text-red-500" style="font-size: 10px; color: red" id="errorPassword"></span>
+                    </div>
+                </div>
+                <div class="flex justify-center space-x-4">
+                    <button class="w-1/2 bg-[#784DF1] hover:bg-[#4706FF] text-white font-bold py-2 px-4 rounded"
+                        id="btn-submit">
+                        Login
                     </button>
-                </form>
-            </div>
+                    <button class="w-1/2 bg-[#ADADB0] hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
+                        id="btn-register">
+                        Register
+                    </button>
+                </div>
+            </form>
         </div>
-    </main>
-    {{-- <div class="input-form items-center">
-        </div> --}}
-</body>
-<style>
-    html,
-    body {
-        height: 100%;
-        background-color: #FAF8F5;
-    }
+    </div>
+    <script>
+        const emailInput = document.getElementById('email-address');
+        const passwordInput = document.getElementById('password');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const inputElement = document.querySelectorAll('input');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnRegister = document.getElementById('btn-register');
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
 
-    main {
-        max-width: 1380px;
-        border: 0;
-        margin: 0;
-    }
-
-    .input img {
-        width: 100%;
-    }
-/* 
-    @media (min-width: 1280px) and (max-width: 1600px) {
-        .input img {
-            height: 500%;
+        function validateHidden() {
+            for (let i = 0; i < inputElement.length; ++i) {
+                inputElement[i].addEventListener('focus', function() {
+                    document.getElementById('errorEmail').innerHTML = '';
+                    document.getElementById('errorPassword').innerHTML = '';
+                });
+            }
         }
-    }
 
-    .sizeImg img {
-        width: 100%;
-        height: auto;
-    } */
-
-    /* @media (min-width: 1200px) and (max-width: 1380px) {
-        .sizeImg img {
-            width: 80%;
-            height: auto;
+        function validateEmail(email) {
+            if (!!(email)) {
+                if (emailRegex.test(email)) {
+                    document.getElementById('errorEmail').innerHTML = '';
+                    return true;
+                } else {
+                    document.getElementById('errorEmail').innerHTML = 'Please enter a valid email address.';
+                    return false;
+                }
+            } else {
+                document.getElementById('errorEmail').innerHTML = 'Email required';
+                return false;
+            }
         }
-    } */
 
-    /* @media (max-width: 1380px) {
-        .sizeImg img {
-            width: 60%;
-            height: auto;
+        function validatePassword(password) {
+            if (!!(password)) {
+                if (passwordRegex.test(password)) {
+                    document.getElementById('errorPassword').innerHTML = '';
+                    return true;
+                } else {
+                    document.getElementById('errorPassword').innerHTML = 'Please enter a valid password';
+                    return false;
+                }
+            } else {
+                document.getElementById('errorPassword').innerHTML = 'Password required';
+                return false;
+            }
         }
-    }
 
-    .sizeImg2 img {
-        width: 100%;
-        height: auto;
-    } */
-
-    /* @media (min-width: 1380px) {
-        .sizeImg2 img {
-            width: 80%;
-            height: auto;
+        btnSubmit.onclick = function(event) {
+            event.preventDefault();
+            let checkEmail = true;
+            let checkPassword = true;
+            validateHidden();
+            checkEmail = validateEmail(emailInput.value);
+            checkPassword = validatePassword(passwordInput.value);
+            if (checkEmail && checkPassword) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/login',
+                    data: {
+                        username: emailInput.value,
+                        password: passwordInput.value,
+                    },
+                    success: function(result) {
+                        console.log("login successfully");
+                    },
+                    error: function(request, error, status) {
+                        //  console.log(request.responseJSON.message);
+                        notify.error(request.responseJSON.message);
+                    }
+                })
+            }
         }
-    } */
-
-    /* @media (min-width: 1280px) {
-        .sizeImg2 img {
-            width: 70%;
-            height: auto;
+        btnRegister.onclick = function(event) {
+            event.preventDefault();
+            window.location.href = '/register';
         }
-    } */
-</style>
-
-</html>
+    </script>
+@endsection
