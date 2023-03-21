@@ -20,10 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'username',
         'password',
-        'first_name',
-        'last_name',
+        'family_name',
+        'given_name',
         'dob',
-        'phone_number',
         'email'
     ];
     public function classOwner()

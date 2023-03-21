@@ -9,18 +9,18 @@
             <form class="mt-8 space-y-6" action="/" method="POST" class="hidden">
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
-                        <label for="email-address" class="block text-gray-700 font-bold mb-2">Email or Username</label>
+                        <label for="email-address" class="block text-gray-700 font-bold mb-2">Email</label>
                         <input id="email-address" name="email" type="text" autocomplete="email"
                             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                             placeholder="Email address">
-                        <span class="text-red-500" style="font-size: 10px; color: red" id="errorEmail"></span>
+                        <span class="text-red-500 error" style="font-size: 10px; color: red" id="errorEmail"></span>
                     </div>
                     <div class="mt-4">
                         <label for="password" class="block text-gray-700 font-bold mb-2 mt-2">Password</label>
                         <input id="password" name="password" type="password" autocomplete="current-password"
                             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                             placeholder="Password">
-                        <span class="text-red-500" style="font-size: 10px; color: red" id="errorPassword"></span>
+                        <span class="text-red-500 error" style="font-size: 10px; color: red" id="errorPassword"></span>
                     </div>
                 </div>
                 <div class="flex justify-center space-x-4">
@@ -45,26 +45,25 @@
         const btnRegister = document.getElementById('btn-register');
         const passwordRegex = /^(?=.*\d)(?=.*[a-z]).{8,}$/;
 
-        function validateHidden() {
-            for (let i = 0; i < inputElement.length; ++i) {
-                inputElement[i].addEventListener('focus', function() {
-                    document.getElementById('errorEmail').innerHTML = '';
-                    document.getElementById('errorPassword').innerHTML = '';
-                });
-            }
-        }
+        // function validateHidden() {
+        //     for (let i = 0; i < inputElement.length; ++i) {
+        //         inputElement[i].addEventListener('focus', function() {
+        //             validation.hiddenAll();
+        //         });
+        //     }
+        // }
+        validateHidden();
 
         function validateEmail(email) {
             if (!!(email)) {
                 if (emailRegex.test(email)) {
-                    document.getElementById('errorEmail').innerHTML = '';
                     return true;
                 } else {
-                    document.getElementById('errorEmail').innerHTML = 'Please enter a valid email address.';
+                    validation.show('errorEmail', 'Please enter a valid email address.')
                     return false;
                 }
             } else {
-                document.getElementById('errorEmail').innerHTML = 'Email required';
+                validation.show('errorEmail', 'Email required')
                 return false;
             }
         }
@@ -72,26 +71,23 @@
         function validatePassword(password) {
             if (!!(password)) {
                 if (passwordRegex.test(password)) {
-                    document.getElementById('errorPassword').innerHTML = '';
                     return true;
                 } else {
-                    document.getElementById('errorPassword').innerHTML = 'Please enter a valid password';
+                    validation.show('errorPassword', 'Please enter a valid password');
                     return false;
                 }
             } else {
-                document.getElementById('errorPassword').innerHTML = 'Password required';
+                validation.show('errorPassword', 'Password required');
                 return false;
             }
         }
 
         btnSubmit.onclick = function(event) {
             event.preventDefault();
+            validateHidden();
             let checkEmail = true;
             let checkPassword = true;
-            validateHidden();
-            checkEmail = validateEmail(emailInput.value);
-            checkPassword = validatePassword(passwordInput.value);
-            if (checkEmail && checkPassword) {
+            if (validateEmail(emailInput.value) && validatePassword(passwordInput.value)) {
                 $.ajax({
                     type: 'POST',
                     url: '/api/login',
