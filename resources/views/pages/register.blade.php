@@ -98,15 +98,6 @@
             event.preventDefault();
             window.location.href = '/login';
         }
-
-        // function validateHidden() {
-        //     const inputElement = document.querySelectorAll('input');
-        //     for (let i = 0; i < inputElement.length; ++i) {
-        //         inputElement[i].addEventListener('focus', function() {
-        //             validation.hiddenAll();
-        //         });
-        //     }
-        // }
         validateHidden();
         const validationForm = () => {
             const nameRegex = /^[A-Z][a-z]*(\s+[A-Z][a-z]*)*$/;
