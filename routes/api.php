@@ -35,8 +35,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/join', [ClassController::class, 'joinClass']);
     });
     Route::prefix('/lesson')->group(function () {
-        Route::get('/all',[LessonController::class, 'getAllLessonInClass']);
-        Route::post('/create',[LessonController::class,'']);
+        Route::get('/all', [LessonController::class, 'getAllLessonInClass']);
+        Route::post('/create', [LessonController::class, '']);
         Route::get('/{id}');
         Route::put('/{id}');
     });

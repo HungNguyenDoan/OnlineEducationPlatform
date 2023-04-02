@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -21,16 +22,13 @@ class UserService
         if (auth()->attempt($attributes)) {
             // /** @var \App\Models\User $user **/
             // $user = auth()->user();
-            $token = auth()->user()->createToken('AuthenticationToken')->accessToken;
-            Session::put([
-                'token' => $token,
-                'user' => Auth::user()
-            ]);
+            $token = auth()->user()->createToken('AuthenticationToken', [], 120)->accessToken;
+            // dd(Auth::guard('api')->check());
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful',
                 'token' => $token,
-            ], 200);
+            ], 200)->cookie('token', $token);
         } else {
             return response()->json([
                 'status' => false,
@@ -61,6 +59,7 @@ class UserService
     public function logout()
     {
         if (Auth::check()) {
+            Cookie::forget('token');
             Auth::user()->oAuthAccessToken()->delete();
         }
         return response()->json([

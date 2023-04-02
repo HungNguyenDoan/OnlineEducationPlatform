@@ -16,18 +16,13 @@
 </head>
 
 <body>
-    @include('components.validation')
-    <div class="main relative">
+    @vite('resources/js/service/main.js')
+    @include('components.navbar')
+    @include('components.notify')
+    <div class="main">
         @yield('main-body')
     </div>
-    @include('components.notify')
+
 </body>
-<style>
-    .error {
-        font-size: 12px;
-        display: block;
-        height: 12px;
-    }
-</style>
 
 </html>

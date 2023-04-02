@@ -7,7 +7,6 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class ClassService
 {
@@ -28,13 +27,13 @@ class ClassService
             return response()->json([
                 'status' => true,
                 'message' => 'Created successfully',
-                'data' => $attributes
-            ]);
+                'data' => $this->classRepository->getAllOwnerClass(Auth::user()->id),
+            ], 200);
         } catch (Exception $e) {
             Log::debug($e->getMessage());
             return response()->json([
                 'status' => false,
-                'message' => 'Failed when creating class'
+                'message' => 'Failed when creating class',
             ], 400);
         }
     }
@@ -50,6 +49,9 @@ class ClassService
         DB::beginTransaction();
         try {
             $class = $this->classRepository->findByClassCode($classCode);
+            if (!isset($class)) {
+                throw new Exception("No class match");
+            }
             // $owner = $class->students;
             // Log::debug($owner);
             $class->students()->attach(Auth::user()->id);
@@ -62,7 +64,7 @@ class ClassService
             Log::debug(json_decode($e->getMessage()));
             return response()->json([
                 'status' => false,
-                'message' => 'Failed'
+                'message' => 'No class match'
             ], 400);
         }
     }
