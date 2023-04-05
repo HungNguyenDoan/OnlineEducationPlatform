@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use LogicException;
 
 class ClassService
 {
@@ -37,11 +38,16 @@ class ClassService
             ], 400);
         }
     }
-    public function getAllOwnerClass()
+    public function getAllClass()
     {
+        $user = auth()->user();
+        Log::debug($user->joinedClass);
         return response()->json([
             'status' => true,
-            'data' => $this->classRepository->getAllOwnerClass(Auth::user()->id)
+            'data' => [
+                'owner' => $this->classRepository->getAllOwnerClass(Auth::user()->id),
+                'joined' => auth()->user()->joinedClass,
+            ]
         ]);
     }
     public function joinClass($classCode)
@@ -52,6 +58,10 @@ class ClassService
             if (!isset($class)) {
                 throw new Exception("No class match");
             }
+            $userId = Auth::user()->id;
+            if ($userId == $class->owner_id) {
+                throw new LogicException("You are class owner");
+            }
             // $owner = $class->students;
             // Log::debug($owner);
             $class->students()->attach(Auth::user()->id);
@@ -60,8 +70,15 @@ class ClassService
                 'status' => true,
                 'message' => 'Join class successfully'
             ], 200);
+        } catch (LogicException $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 400);
         } catch (Exception $e) {
             Log::debug(json_decode($e->getMessage()));
+            DB::rollBack();
             return response()->json([
                 'status' => false,
                 'message' => 'No class match'

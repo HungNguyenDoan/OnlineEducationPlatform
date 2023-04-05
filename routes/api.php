@@ -29,7 +29,7 @@ Route::middleware('auth:api')->group(function () {
         // Route::get('/all-class', function () {
         //     return 1;
         // });
-        Route::get('/all-class', [ClassController::class, 'getAllOwnerClass']);
+        Route::get('/all-class', [ClassController::class, 'getAllClass']);
         Route::get('/{id}', [ClassController::class, 'getDetailClass']);
         Route::post('/create', [ClassController::class, 'createClass']);
         Route::post('/join', [ClassController::class, 'joinClass']);

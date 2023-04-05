@@ -22,7 +22,7 @@ class UserService
         if (auth()->attempt($attributes)) {
             // /** @var \App\Models\User $user **/
             // $user = auth()->user();
-            $token = auth()->user()->createToken('AuthenticationToken', [], 120)->accessToken;
+            $token = auth()->user()->createToken('AuthenticationToken')->accessToken;
             // dd(Auth::guard('api')->check());
             return response()->json([
                 'status' => true,

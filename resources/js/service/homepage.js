@@ -1,22 +1,16 @@
-import { dataRender } from "../components/dataRender";
-const dropDownButton = document.getElementById('dropdown');
-const classCard = document.getElementById('class-card');
-dropDownButton.addEventListener('click', () => {
-    console.log('123');
-    if (classCard.style.display === "none") {
-        classCard.style.display = "flex";
-    }
-    else {
-        classCard.style.display = "none";
-    }
-});
+import { dataRender } from "../commons/dataRender";
+import { hidden } from "../commons/hiddenData";
+
+hidden('owner-class', 'dropdown-owner')
+hidden('joined-class-card', 'dropdown-join')
 
 window.onload = () => {
     $.ajax({
         type: 'GET',
         url: 'class/all-class',
         success: function (response) {
-            dataRender('class-card', response.data)
+            dataRender('owner-class', response.data.owner)
+            dataRender('joined-class-card', response.data.joined)
         },
         error: function (request, status,) {
         }

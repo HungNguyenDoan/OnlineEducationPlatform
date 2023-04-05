@@ -16,9 +16,9 @@ class ClassController extends Controller
     {
         return $this->classService->createClass($request->all());
     }
-    public function getAllOwnerClass()
+    public function getAllClass()
     {
-        return $this->classService->getAllOwnerClass();
+        return $this->classService->getAllClass();
     }
     public function joinClass(Request $request)
     {

@@ -25,6 +25,9 @@ class User extends Authenticatable
         'dob',
         'email'
     ];
+
+    protected $hidden = ['password', array('pivot')];
+
     public function classOwner()
     {
         return $this->hasMany(StudentClass::class, 'owner_id', 'id');

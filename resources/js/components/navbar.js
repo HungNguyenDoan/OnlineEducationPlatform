@@ -1,4 +1,4 @@
-import { dataRender } from "./dataRender";
+import { dataRender } from "../commons/dataRender";
 // navbar handle
 const dropdownButton = document.querySelector('#dropdown-button');
 const dropdownMenu = document.querySelector('#dropdown-menu');
