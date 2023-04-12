@@ -74,6 +74,7 @@ submitSearch.addEventListener('click', (event) => {
             },
             success: function (result) {
                 notify.success('success');
+                // dataRender('joined-class-card', response.data.joined)
             },
             error: function (request, status, response) {
                 notify.error("Join failed");
@@ -95,7 +96,7 @@ submitCreate.addEventListener('click', (event) => {
                 class_name: createData.value
             },
             success: function (result) {
-                dataRender('class-card', result.data)
+                dataRender('owner-class-card', result.data)
                 notify.success('success');
                 createPopup.style.display = 'none';
             },
