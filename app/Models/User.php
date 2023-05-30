@@ -26,7 +26,7 @@ class User extends Authenticatable
         'email'
     ];
 
-    protected $hidden = ['password', array('pivot')];
+    protected $hidden = ['password'];
 
     public function classOwner()
     {

@@ -11,15 +11,15 @@ class Homework extends Model
     protected $table = 'homework';
     protected $fillable = [
         'lesson_id',
-        'description',
+        'url',
         'end_time',
     ];
     public function inLesson()
     {
         return $this->belongsTo(Lesson::class, 'lesson_id', 'id');
     }
-    public function homeworkMaterial()
+    public function assignment()
     {
-        return $this->hasMany(HomeworkMaterial::class, 'homework_id', 'id');
+        return $this->hasOne(Assignment::class, 'homework_id', 'id');
     }
 }

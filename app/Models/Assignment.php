@@ -12,7 +12,8 @@ class Assignment extends Model
     protected $fillable = [
         'homework_id',
         'student_id',
-        'assign_at'
+        'assign_at',
+        'url',
     ];
     public function inLesson()
     {

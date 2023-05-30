@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('homework', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lesson_id');
-            $table->string('description')->nullable();
+            $table->string('url')->nullable();
             $table->date('end_time');
             $table->timestamps();
         });

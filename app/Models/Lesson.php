@@ -23,4 +23,8 @@ class Lesson extends Model
     {
         return $this->hasOne(Homework::class, 'lesson_id', 'id');
     }
+    public function materials()
+    {
+        return $this->hasOne(LessonMaterial::class, 'lesson_id', 'id');
+    }
 }

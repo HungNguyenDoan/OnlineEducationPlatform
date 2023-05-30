@@ -22,8 +22,11 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('pages.register');
 });
-Route::middleware('auth:api')->group(function(){
+Route::middleware('auth:api')->group(function () {
     Route::get('/homepage', function () {
         return view('pages.homepage');
     })->name('homepage');
+    Route::get('/class-detail', function () {
+        return view('pages.class_detail');
+    });
 });

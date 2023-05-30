@@ -68,6 +68,7 @@ class ClassService
             DB::commit();
             return response()->json([
                 'status' => true,
+                'data' => auth()->user()->joinedClass,
                 'message' => 'Join class successfully'
             ], 200);
         } catch (LogicException $e) {
@@ -85,18 +86,21 @@ class ClassService
             ], 400);
         }
     }
-    public function getDetailClass($classId)
-    {
-        if ($this->classRepository->find($classId) != null) {
-            return response()->json([
-                'status' => true,
-                'data' => $this->classRepository->find($classId)
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'This class is not exist',
-            ], 404);
-        }
-    }
+    // public function getDetailClass($classId)
+    // {
+    //     if ($this->classRepository->find($classId) != null) {
+    //         log::debug($this->classRepository->find($classId));
+    //         return response()->json([
+    //             'status' => true,
+    //             'data' => [
+    //                 'class' => $this->classRepository->getDetailClass($classId),
+    //             ]
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'This class is not exist',
+    //         ], 404);
+    //     }
+    // }
 }

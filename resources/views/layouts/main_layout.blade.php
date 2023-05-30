@@ -17,7 +17,6 @@
 
 <body>
     @vite('resources/js/service/main.js')
-    @include('components.navbar')
     @include('components.notify')
     <div class="main">
         @yield('main-body')

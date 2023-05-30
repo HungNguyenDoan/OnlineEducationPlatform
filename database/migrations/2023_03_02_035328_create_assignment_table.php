@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('homework_id');
             $table->unsignedBigInteger('student_id');
+            $table->string('url');
             $table->dateTime('assign_at');
             $table->timestamps();
         });

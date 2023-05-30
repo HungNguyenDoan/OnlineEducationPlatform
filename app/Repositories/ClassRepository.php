@@ -18,4 +18,13 @@ class ClassRepository extends BaseRepository
     {
         return $this->model->where('class_code', $classCode)->first();
     }
+    public function getDetailClass($classId)
+    {
+        return $this->model->with('lesson')->where('id', $classId)->get();
+    }
+    public function getOwnerClass($classId)
+    {
+        $class = $this->model->with('ownerClass')->where('id', $classId)->first();
+        return $class->ownerClass;
+    }
 }

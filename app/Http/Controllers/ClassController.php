@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Services\ClassService;
+use App\Services\ClassDetailService;
 use Illuminate\Http\Request;
 
 class ClassController extends Controller
 {
-    private $classService;
-    public function __construct(ClassService $classService)
+    private $classService, $classDetailService;
+    public function __construct(ClassService $classService, ClassDetailService $classDetailService)
     {
         $this->classService = $classService;
+        $this->classDetailService = $classDetailService;
     }
     public function createClass(Request $request)
     {
@@ -26,6 +28,6 @@ class ClassController extends Controller
     }
     public function getDetailClass(Request $request)
     {
-        return $this->classService->getDetailClass($request->id);
+        return $this->classDetailService->getAllClassDetail($request->id);
     }
 }

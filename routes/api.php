@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +38,12 @@ Route::middleware('auth:api')->group(function () {
     });
     Route::prefix('/lesson')->group(function () {
         Route::get('/all', [LessonController::class, 'getAllLessonInClass']);
-        Route::post('/create', [LessonController::class, '']);
+        Route::post('/create', [LessonController::class, 'createLesson']);
         Route::get('/{id}');
-        Route::put('/{id}');
+        Route::post('delete', [LessonController::class, 'deleteLesson']);
     });
+    Route::prefix('/material')->group(function () {
+        Route::get('download', [MaterialController::class, 'download']);
+    });
+    Route::post('/submit', [AssignmentController::class, 'submit']);
 });

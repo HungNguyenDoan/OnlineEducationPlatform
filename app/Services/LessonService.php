@@ -2,28 +2,49 @@
 
 namespace App\Services;
 
+use App\Repositories\HomeworkRepository;
 use App\Repositories\LessonRepository;
+use App\Repositories\MaterialRepository;
 use Exception;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LessonService
 {
-    private $lessonRepository;
-    public function __construct(LessonRepository $lessonRepository)
+    private $lessonRepository, $materialRepository, $homeworkRepository;
+    public function __construct(LessonRepository $lessonRepository, MaterialRepository $materialRepository, HomeworkRepository $homeworkRepository)
     {
         $this->lessonRepository = $lessonRepository;
+        $this->materialRepository = $materialRepository;
+        $this->homeworkRepository = $homeworkRepository;
     }
-    public function createLesson($attributes)
+    public function createLesson($attributes, UploadedFile $material, UploadedFile $homework)
     {
         DB::beginTransaction();
         try {
-            $this->lessonRepository->create($attributes);
+            $lesson = $this->lessonRepository->create($attributes);
+            $materialName = time() . '.' . $material->getClientOriginalExtension();
+            $pathMaterial = $material->storeAs('public/uploads', $materialName);
+            $materialData = [
+                'lesson_id' => $lesson->id,
+                'url' => $pathMaterial,
+            ];
+            $this->materialRepository->create($materialData);
+            $homeworkName = time() . '.' . $homework->getClientOriginalExtension();
+            $pathHomework = $homework->storeAs('public/uploads', $homeworkName);
+            $homeworkData = [
+                'lesson_id' => $lesson->id,
+                'url' => $pathHomework,
+                'end_time' => $attributes['submitTime']
+            ];
+            log::info($homeworkData);
+            $this->homeworkRepository->create($homeworkData);
             DB::commit();
             return response()->json([
                 'status' => true,
                 'message' => 'Created successfully',
-                'data' => $attributes
+                'data' => $this->lessonRepository->getLessonInClass($attributes['class_id']),
             ], 200);
         } catch (Exception $e) {
             Log::debug($e->getMessage());
@@ -54,5 +75,14 @@ class LessonService
                 'message' => 'This lesson is not exist'
             ], 404);
         }
+    }
+    public function deleteLesson($lessonId)
+    {
+        $classId = $this->lessonRepository->getById($lessonId)->class_id;
+        $this->lessonRepository->delete($lessonId);
+        return response()->json([
+            'status' => true,
+            'data' => $this->getAllLessonInClass($classId)
+        ], 200);
     }
 }

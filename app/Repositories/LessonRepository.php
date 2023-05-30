@@ -12,6 +12,11 @@ class LessonRepository extends BaseRepository
     }
     public function getLessonInClass($classId)
     {
-        return $this->model->where('class_id', $classId)->get();
+        $lessons = $this->model->where('class_id', $classId)->get();
+        foreach ($lessons as $lesson) {
+            $lesson->materials;
+            $lesson->homework->assignment;
+        }
+        return $lessons;
     }
 }

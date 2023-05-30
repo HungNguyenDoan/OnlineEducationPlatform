@@ -21,12 +21,6 @@
                         class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">User
                         Profile</button></li>
                 <li><button type="button"
-                        class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">Your
-                        classes</button></li>
-                <li><button type="button"
-                        class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">Score</button>
-                </li>
-                <li><button type="button"
                         class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                         id="logout-btn">Logout</button>
                 </li>
